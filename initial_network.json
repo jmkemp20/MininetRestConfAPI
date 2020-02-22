@@ -1,0 +1,24 @@
+{
+  "hosts": [
+    "h1", "h2"
+  ],
+  "switches": [
+    "s1"
+  ],
+  "controller": {
+      "name": "c0",
+      "type": "OVSController",
+      "ip_address": "127.0.0.1",
+      "OF_port": 6653
+  },
+  "links": [
+    {
+      "link_one": "h1",
+      "link_two": "s1"
+    },
+    {
+      "link_one": "h2",
+      "link_two": "s1"
+    }
+  ]
+}

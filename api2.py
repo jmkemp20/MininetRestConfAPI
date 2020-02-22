@@ -203,13 +203,13 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
   
     content_length = int(self.headers['Content-length'])
     post_data = json.loads(self.rfile.read(content_length))
-    print post_data
+    print(post_data)
     self._set_headers()
     
-    print self.path[0:6]
+    print(self.path[0:6])
     
     if (self.path[0:5] == '/host'):
-      print 'host'
+      print('host')
       savedTopo = topo
       try: # Check if host field is available
         name = post_data["name"]
@@ -229,7 +229,7 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
       self.wfile.write("Done creating host %s with %s%% of packets dropped after pingAll()" % (name, res)) 
       
     elif (self.path[0:7] == '/switch'):
-      print 'switch'
+      print('switch')
       savedTopo = topo
       try:
         name = post_data["name"]
@@ -244,7 +244,7 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
       self.wfile.write("Done creating switch %s" % name)
       
     elif (self.path[0:5] == '/link'):
-      print 'link'
+      print('link')
       savedTopo = topo
       try:
         link1 = post_data["link_one"]
@@ -276,7 +276,7 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
           for i in post_data[node]:
             topo.addSwitch(i)
         elif (node == 'controllers'):
-          print "not created"
+          print("not created")
         elif (node == 'links'):
           for i in post_data[node]:
             topo.addLink(i['link_one'], i['link_two'])
@@ -291,7 +291,7 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
       print ("Testing network connectivity")
       res = net.pingAll()
       
-      print 'bulk new'
+      print('bulk new')
       self.wfile.write("Done creating bulk data, with %s%% of packets dropped after pingAll()" % (res)) 
     elif (self.path[0:1] == '/'):
       savedTopo = topo
@@ -303,17 +303,17 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
           for i in post_data[node]:
             savedTopo.addSwitch(i)
         elif (node == 'controllers'):
-          print "not created"
+          print("not created")
         elif (node == 'links'):
           for i in post_data[node]:
             savedTopo.addLink(i['link_one'], i['link_two'])
         else:
           print("error")
       res = restart_net(savedTopo)
-      print 'bulk'
+      print('bulk')
       self.wfile.write("Done creating bulk data, with %s%% of packets dropped after pingAll()" % (res)) 
     else:
-      print "ERROR POSTING DATA TO %s" % self.path
+      print("ERROR POSTING DATA TO %s" % self.path)
     
   def do_DELETE(self):
     self._set_headers()
@@ -346,48 +346,48 @@ def run_mininet():
 def restart_net( sTopo ):
   global net
   global topo
-  print "Saved the topology"
-  print "Stopping the network"
+  print("Saved the topology")
+  print("Stopping the network")
   net.stop()
   net = None
   topo = sTopo
-  print "Stopped the network"
-  print "Starting new network"
+  print("Stopped the network")
+  print("Starting new network")
   net = Mininet(topo, controller=OVSController, autoSetMacs=True)
   net.start()
   print ("Dumping host connections")
   dumpNodeConnections(net.hosts)
-  print "Testing network connectivity"
+  print("Testing network connectivity")
   ping = net.pingAll()
-  print "Done restarting"
-  print "Waiting for all switches to connect..."
+  print("Done restarting")
+  print("Waiting for all switches to connect...")
   net.waitConnected()
-  print "Done"
+  print("Done")
   return ping
   
 def restart_net_switch( sTopo ):
   global net
   global topo
-  print "Saved the topology"
-  print "Stopping the network"
+  print("Saved the topology")
+  print("Stopping the network")
   net.stop()
   net = None
   topo = sTopo
-  print "Stopped the network"
-  print "Starting new network"
+  print("Stopped the network")
+  print("Starting new network")
   net = Mininet(topo, controller=OVSController, autoSetMacs=True)
   net.start()
-  print "Done restarting"
-  print "Waiting for all switches to connect..."
+  print("Done restarting")
+  print("Waiting for all switches to connect...")
   net.waitConnected()
-  print "Done"
+  print("Done")
     
   
 def run_api_server(handler=MyRequestHandler, addr="", port=8000):
   server_address = (addr, port)
   httpd = SocketServer.TCPServer(server_address, handler)
   
-  print "Starting httpd server on %s:%s" % (addr, port)
+  print("Starting httpd server on %s:%s" % (addr, port))
   httpd.serve_forever()
   
 

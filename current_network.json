@@ -1,0 +1,1 @@
+{"switches": ["s1"], "controller": {"OF_port": 6653, "ip_address": "127.0.0.1", "type": "OVSController", "name": "c0"}, "hosts": ["h1", "h2"], "links": [{"link_two": "s1", "link_one": "h1"}, {"link_two": "s1", "link_one": "h2"}]}
